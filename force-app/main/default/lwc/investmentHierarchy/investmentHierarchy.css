@@ -1,0 +1,7 @@
+.myButtons{
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 20px;
+}

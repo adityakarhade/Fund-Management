@@ -1,0 +1,106 @@
+<template>
+    <lightning-card title="Budgets">
+        <div class="slds-p-around_medium">
+            <lightning-accordion allow-multiple-sections-open>
+                <template for:each={budgetAllocations} for:item="ba">
+                    <lightning-accordion-section 
+                        key={ba.Id} 
+                        data-recordid={ba.Id} 
+                        name={ba.Budget_Allocation_Name__c} 
+                        label={ba.Budget_Allocation_Name__c}
+                    >
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-margin-top_small" style="table-layout: fixed; width: 100%;">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="BA-ID">BA-ID</div>
+                                    </th>
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="Account">Account</div>
+                                    </th>
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="Allocated Amount">Allocated Amount</div>
+                                    </th>
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="Status">Status</div>
+                                    </th>
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="Investment Area">Investment Area</div>
+                                    </th>
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="Investment Timeframe">Investment Timeframe</div>
+                                    </th>
+                                    <th scope="col" style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title="Fund Manager">Fund Manager</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Name}>{ba.Name}</div>
+                                    </td>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Account__r.Name}>{ba.Account__r.Name}</div>
+                                    </td>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Fund__c}>{ba.Fund__c}</div>
+                                    </td>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Current_Status__c}>{ba.Current_Status__c}</div>
+                                    </td>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Investment_Area__c}>{ba.Investment_Area__c}</div>
+                                    </td>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Investment_Timeframe__c}>{ba.Investment_Timeframe__c}</div>
+                                    </td>
+                                    <td style="width: 14.28%; word-wrap: break-word; white-space: normal;">
+                                        <div style="white-space: normal; overflow-wrap: break-word; word-wrap: break-word; hyphens: auto;" title={ba.Fund_Manager__c}>{ba.Fund_Manager__c}</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="myButtons">
+                            <div>
+                                <lightning-button 
+                                    label="Strategies" 
+                                    variant="brand" 
+                                    onclick={handleStrategiesClick} 
+                                    data-recordid={ba.Id}>
+                                </lightning-button>
+                            </div>
+                            <div>
+                                <lightning-button 
+                                    label="Investments" 
+                                    variant="brand" 
+                                    onclick={handleInvestmentsClick} 
+                                    data-recordid={ba.Id}>
+                                </lightning-button>
+                            </div>
+                            <div>
+                            </div>
+                        </div>
+                    </lightning-accordion-section>
+                </template>
+            </lightning-accordion>
+        </div>
+    </lightning-card>
+
+    <template if:true={showStrategyModal}>
+        <c-strategy-modal 
+            strategies={strategies} 
+            tree-grid-columns={treeGridColumns} 
+            onclose={handleCloseStrategyModal}>
+        </c-strategy-modal>
+    </template>
+
+    <template if:true={showInvestmentModal}>
+        <c-investment-modal 
+            investments={investments} 
+            tree-grid-columns={treeGridColumns} 
+            onclose={handleCloseInvestmentModal}>
+        </c-investment-modal>
+    </template>
+</template>
